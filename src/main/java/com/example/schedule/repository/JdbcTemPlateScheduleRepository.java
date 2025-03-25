@@ -62,7 +62,7 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
     @Override
     public Schedule findScheduleByIDOrElseThrow(Long id) {
 
-        List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ?",scheduleRowMapperV2(), id);
+        List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ? ORDER BY updated_at desc",scheduleRowMapperV2(), id);
 
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, " id : " + id + "값을 가진 데이터는 존재하지 않습니다."));
     }
