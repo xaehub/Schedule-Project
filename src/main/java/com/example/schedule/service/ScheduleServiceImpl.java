@@ -53,7 +53,6 @@ public class ScheduleServiceImpl implements ScheduleService{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The writer and password are required values.");
         }
 
-
         int updatedRow = scheduleRepository.updateSchedule(id, to_do, writer, password);
 
         if(updatedRow == 0) {
