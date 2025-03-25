@@ -13,7 +13,6 @@ public class ScheduleResponseDto {
     private Long id;
     private String toDo;
     private String writer;
-    private String password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

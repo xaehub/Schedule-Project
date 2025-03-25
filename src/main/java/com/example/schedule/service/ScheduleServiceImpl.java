@@ -7,6 +7,7 @@ import com.example.schedule.repository.JdbcTemPlateScheduleRepository;
 import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,18 +23,22 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
 
-        Schedule schedule = new Schedule(dto.getToDo(), dto.getWriter(), dto.getPassword());
+        LocalDateTime now = LocalDateTime.now();    // 한번만 만들어서 createdAt과 updatedAt의 시간 차이를 없앤다
+
+        Schedule schedule = new Schedule(dto.getToDo(), dto.getWriter(), dto.getPassword(), now, now);
 
         return scheduleRepository.saveSchedule(schedule);
     }
 
     @Override
-    public List<ScheduleResponseDto> findAllSchedules() {
-        return List.of();
+    public List<ScheduleResponseDto> findAllSchedules()  {
+        return scheduleRepository.findAllSchedules();
     }
 
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
-        return null;
+
+        Schedule schedule = scheduleRepository.findScheduleByIDOrElseThrow(id);
+        return new ScheduleResponseDto(schedule);
     }
 }
