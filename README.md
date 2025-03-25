@@ -49,7 +49,22 @@ Spring Boot를 사용하여 일정 관리 API를 개발합니다.
 
 - 삭제 /schedules/{id}
 - 특정 일정 삭제 시 비밀번호 필수
+---
+## Schedule 테이블 구조
 
+`Schedule` 테이블은 일정 정보를 저장하기 위해 사용됩니다. 이 테이블은 다음과 같은 필드로 구성됩니다:
+
+```sql
+CREATE TABLE schedule
+(
+    id          BIGINT       AUTO_INCREMENT PRIMARY KEY NOT NULL,  -- 일정의 고유 ID
+    to_do       VARCHAR(200) NULL,  -- 일정 내용 (최대 200자)
+    writer      VARCHAR(100) NOT NULL,  -- 일정 작성자
+    password    VARCHAR(255) NOT NULL,  -- 일정 수정 및 삭제를 위한 비밀번호
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,  -- 일정 생성 시간 (기본값: 현재 시간)
+    updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  -- 일정 수정 시간 (기본값: 현재 시간, 수정 시 자동 갱신)
+);
+```
 ---
 ## ERD
 
