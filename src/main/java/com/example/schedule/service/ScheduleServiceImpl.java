@@ -3,7 +3,6 @@ package com.example.schedule.service;
 import com.example.schedule.dto.ScheduleRequestDto;
 import com.example.schedule.dto.ScheduleResponseDto;
 import com.example.schedule.entity.Schedule;
-import com.example.schedule.repository.JdbcTemPlateScheduleRepository;
 import com.example.schedule.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -67,9 +66,9 @@ public class ScheduleServiceImpl implements ScheduleService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
 
-        Schedule schedule1 = scheduleRepository.findScheduleByIDOrElseThrow(id);
+        Schedule updatedSchedule = scheduleRepository.findScheduleByIDOrElseThrow(id);
 
-        return new ScheduleResponseDto(schedule1);
+        return new ScheduleResponseDto(updatedSchedule);
     }
 
     @Override
