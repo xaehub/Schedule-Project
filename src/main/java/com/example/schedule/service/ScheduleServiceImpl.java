@@ -49,9 +49,17 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public ScheduleResponseDto updateSchedule(Long id, String to_do, String writer, String password) {
 
-        if(writer == null || password == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The writer and password are required values.");
+        Schedule schedule = scheduleRepository.findScheduleByIDOrElseThrow(id);
+
+        // 비밀번호 유효성 검사
+        if (!schedule.getPassword().equals(password)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "비밀번호가 틀렸습니다.");
         }
+
+        if(writer == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "작성자는 필수값입니다.");
+        }
+
 
         int updatedRow = scheduleRepository.updateSchedule(id, to_do, writer, password);
 
@@ -59,13 +67,13 @@ public class ScheduleServiceImpl implements ScheduleService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
 
-        Schedule schedule = scheduleRepository.findScheduleByIDOrElseThrow(id);
+        Schedule schedule1 = scheduleRepository.findScheduleByIDOrElseThrow(id);
 
-        return new ScheduleResponseDto(schedule);
+        return new ScheduleResponseDto(schedule1);
     }
 
     @Override
-    public void deleteSchedule(Long id) {
+    public void deleteSchedule(Long id, String password) {
         int deletedRow = scheduleRepository.deleteSchedule(id);
 
         if(deletedRow == 0) {
