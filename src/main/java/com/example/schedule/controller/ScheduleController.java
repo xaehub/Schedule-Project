@@ -37,12 +37,14 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.findScheduleById(id), HttpStatus.OK);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<ScheduleResponseDto> updateSchedule(
-//            @PathVariable Long id,
-//            @RequestBody ScheduleRequestDto dto
-//    ) {
-//        return new ResponseEntity<>(scheduleService.updateSchedule(id,dto.getToDo(), dto.getWriter(), dto.getPassword(),))
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(
+            @PathVariable Long id,
+            @RequestBody ScheduleRequestDto dto
+    ) {
+        return new ResponseEntity<>(scheduleService.updateSchedule(id,dto.getToDo(), dto.getWriter(), dto.getPassword()), HttpStatus.OK);
+    }
+
+
 
 }

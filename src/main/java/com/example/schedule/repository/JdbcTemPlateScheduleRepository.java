@@ -67,7 +67,10 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, " id : " + id + "값을 가진 데이터는 존재하지 않습니다."));
     }
 
-
+    @Override
+    public int updateSchedule(Long id, String to_do, String writer, String password) {
+        return jdbcTemplate.update("update schedule set to_do = ?, writer = ?, password = ? where id = ?", to_do, writer, password, id);
+    }
 
 
     private RowMapper<ScheduleResponseDto> scheduleRowMapper() {
