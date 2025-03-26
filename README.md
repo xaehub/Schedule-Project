@@ -32,6 +32,7 @@ Spring Boot를 사용하여 일정 관리 API를 개발합니다.
 ### 전체 일정 조회
 
 - 조회 /schedules
+- 조건 조회 ex) 김태정이 작성한 일정 /schedules?writer=김태정
 
 ### 선택 일정 조회
 
