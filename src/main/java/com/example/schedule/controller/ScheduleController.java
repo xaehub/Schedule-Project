@@ -32,10 +32,13 @@ public class ScheduleController {
 
     // 일정 목록 조회 API
     @GetMapping
-    public List<ScheduleResponseDto> findAllSchedule() {
+    public List<ScheduleResponseDto> findAllSchedule(
+            @RequestParam(required = false) String updatedAt,   // 수정일 필수 X
+            @RequestParam(required = false) String writer       // 작성자명 필수 X
+    ) {
 
         // 전체 일정 목록 반환
-        return scheduleService.findAllSchedules();
+        return scheduleService.findAllSchedules(updatedAt, writer);
     }
 
     // 선택 일정 조회 API

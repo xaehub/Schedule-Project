@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,10 +65,28 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
      * @return 모든 일정 데이터
      */
     @Override
-    public List<ScheduleResponseDto> findAllSchedules() {
+    public List<ScheduleResponseDto> findAllSchedules(String updatedAt, String writer) {
+
+        // 모든 일정 조회하는 쿼리문
+        String result = "select * from schedule";
+
+        // 모든 타입의 객체든 저장하는 오브젝트 타입의 파라미터 리스트
+        List<Object> queryResult = new ArrayList<>();
+
+
+
+        if(updatedAt != null && !updatedAt.isEmpty()){
+            result = result + " where updatedAt = ?";
+            queryResult.add(updatedAt);
+        }
+
+        if(writer != null && !writer.isEmpty()) {
+            result = result + " where writer = ?";
+            queryResult.add(writer);
+        }
 
         // query문으로 schedule 데이터 베이스에서 모든 데이터 조회
-        return jdbcTemplate.query("select * from schedule", scheduleRowMapper());
+        return jdbcTemplate.query(result, queryResult.toArray(), scheduleRowMapper());
     }
 
     /**
@@ -79,7 +98,7 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
     public Schedule findScheduleByIDOrElseThrow(Long id) {
 
         // query문으로 schedule 데이터베이스에서 일정 조회하고 최신 수정일 순으로 정렬
-        List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ? ORDER BY updated_at desc",scheduleRowMapperV2(), id);
+        List<Schedule> result = jdbcTemplate.query("select * from schedule where id = ?",scheduleRowMapperV2(), id);
 
         // id가 잘못되면 예외처리
         return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, " id : " + id + "값을 가진 데이터는 존재하지 않습니다."));

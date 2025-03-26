@@ -39,10 +39,10 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     // 모든 일정 조회 Service
     @Override
-    public List<ScheduleResponseDto> findAllSchedules()  {
+    public List<ScheduleResponseDto> findAllSchedules(String updatedAt, String writer)  {
 
         // 모든 일정 목록을 ScheduleResponseDto 형태로 반환
-        return scheduleRepository.findAllSchedules();
+        return scheduleRepository.findAllSchedules(updatedAt, writer);
     }
 
     // 선택 일정 조회 Service
