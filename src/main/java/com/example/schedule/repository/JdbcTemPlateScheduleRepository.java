@@ -28,7 +28,11 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    // 일정 저장
+    /**
+     * 일정 생성
+     * @param schedule
+     * @return 생성한 일정 데이터
+     */
     @Override
     public ScheduleResponseDto saveSchedule(Schedule schedule) {
 
@@ -55,7 +59,10 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
         return new ScheduleResponseDto(schedule);
     }
 
-    // 모든 일정 조회
+    /**
+     * 모든 일정 목록 조회
+     * @return 모든 일정 데이터
+     */
     @Override
     public List<ScheduleResponseDto> findAllSchedules() {
 
@@ -63,7 +70,11 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
         return jdbcTemplate.query("select * from schedule", scheduleRowMapper());
     }
 
-    // 선택 일정 조회
+    /**
+     * 선택한 일정 조회
+     * @param id 일정 id
+     * @return 선택한 일정 데이터
+     */
     @Override
     public Schedule findScheduleByIDOrElseThrow(Long id) {
 
