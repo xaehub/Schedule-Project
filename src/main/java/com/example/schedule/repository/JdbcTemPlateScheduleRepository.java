@@ -74,18 +74,19 @@ public class JdbcTemPlateScheduleRepository implements ScheduleRepository{
         List<Object> queryResult = new ArrayList<>();
 
 
-
+        // 만약 updatedAt 값이 존재하고 비어있지 않으면
         if(updatedAt != null && !updatedAt.isEmpty()){
-            result = result + " where updatedAt = ?";
-            queryResult.add(updatedAt);
+            result = result + " where updatedAt = ?";   //쿼리문에 where updatedAt추가
+            queryResult.add(updatedAt);                 // 파라미터에 updatedAt값 추가
         }
 
+        // 만약 writer 값이 존재하고 비어있지 않으면
         if(writer != null && !writer.isEmpty()) {
-            result = result + " where writer = ?";
-            queryResult.add(writer);
+            result = result + " where writer = ?";  // 쿼리문에 where writer 추가
+            queryResult.add(writer);                // 파라미터에 writer 추가
         }
 
-        // query문으로 schedule 데이터 베이스에서 모든 데이터 조회
+        // 위에서 생성된 query문이랑 파라미터로 schedule 데이터 베이스에서 모든 데이터 조회해서 scheduleResponseDto 형태로 반환
         return jdbcTemplate.query(result, queryResult.toArray(), scheduleRowMapper());
     }
 

@@ -33,6 +33,7 @@ public class ScheduleController {
     // 일정 목록 조회 API
     @GetMapping
     public List<ScheduleResponseDto> findAllSchedule(
+            // 파라미터로 작성자 또는 수정일 request 받음
             @RequestParam(required = false) String updatedAt,   // 수정일 필수 X
             @RequestParam(required = false) String writer       // 작성자명 필수 X
     ) {
